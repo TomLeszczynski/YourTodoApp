@@ -1,10 +1,4 @@
-## **HTTP Method**
-
-## URL ADDRESS
-
-## DESCRIPTION
-
-**GET**
+## **GET**
 
 http://127.0.0.1:3000
 
@@ -35,7 +29,7 @@ fetch("http://localhost:3000/tasks")
 ]
 ```
 
-**POST**
+## **POST**
 
 http://127.0.0.1:3000/tasks
 
@@ -63,7 +57,7 @@ fetch("http://localhost:3000/tasks", {
 },
 ```
 
-**PATCH**
+## **PATCH**
 
 http://127.0.0.1:3000/tasks/**ID**
 
@@ -91,7 +85,7 @@ fetch("http://localhost:3000/tasks/ID", {
 },    
 ```
 
-**PATCH**
+## **PATCH**
 
 [http://127.0.0.1:3000/tasks/](http://127.0.0.1:3000/tasks/)**ID**/isDone
 
@@ -113,7 +107,7 @@ fetch("http://localhost:3000/tasks/ID/isDone", {
 },
 ```
 
-**DELETE**
+## **DELETE**
 
 http://127.0.0.1:3000/tasks/**ID**
 
