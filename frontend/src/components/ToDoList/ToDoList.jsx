@@ -1,33 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyledMainDiv } from "../styles/StyledMainDiv.jsx";
 import { InputTask } from "../InputTask/InputTask.jsx";
-import { TaskList } from "../TasksList/TaskList.jsx";
-
-const tasksListData = [
-  {
-    task: "Zjeść kokosanke",
-    id: "bsib4ihbs",
-    isDone: false,
-  },
-  {
-    task: "Zrobić wino",
-    id: "dfhgib345",
-    isDone: false,
-  },
-  {
-    task: "Kupić kapary",
-    id: "zfjfhgu8hug43",
-    isDone: false,
-  },
-  {
-    task: "Napić się ginu",
-    id: "ghbuhwergty485",
-    isDone: false,
-  },
-];
+import { TasksList } from "../TasksList/TasksList.jsx";
 
 export const ToDoList = () => {
-  const [taskList, setTaskList] = useState(tasksListData);
+  const [taskList, setTaskList] = useState([]);
+
+  useEffect(() => {
+    try {
+      (async function getTasksList() {
+        const res = await fetch("http://127.0.0.1:3000");
+        const data = await res.json();
+        setTaskList(data);
+      })();
+    } catch (error) {
+      throw new Error("Data fetch eild");
+    }
+  }, []);
 
   let numberOfTasks = taskList.length;
 
@@ -37,7 +26,7 @@ export const ToDoList = () => {
         setTaskList={setTaskList}
         numberOfTasks={numberOfTasks}
       ></InputTask>
-      <TaskList setTaskList={setTaskList} taskList={taskList}></TaskList>
+      <TasksList setTaskList={setTaskList} taskList={taskList}></TasksList>
     </StyledMainDiv>
   );
 };

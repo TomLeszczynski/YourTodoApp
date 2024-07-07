@@ -5,7 +5,7 @@ import { StyledUl } from "../styles/StyledUl.jsx";
 import { StyledListP } from "../styles/StyledListP.jsx";
 import { StyledEditInput } from "../styles/StyledEditInput.jsx";
 
-export const TaskList = ({ taskList, setTaskList }) => {
+export const TasksList = ({ taskList, setTaskList }) => {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [currentInput, setCurrentInput] = useState("");
   const EditInputRef = useRef(null);
@@ -40,8 +40,8 @@ export const TaskList = ({ taskList, setTaskList }) => {
     setCurrentInput(currentTask);
   };
 
-  const handleInputChange = (e) => {
-    setCurrentInput(e.target.value);
+  const handleInputChange = (event) => {
+    setCurrentInput(event.target.value);
   };
 
   const handleSaveBlur = (id) => {
