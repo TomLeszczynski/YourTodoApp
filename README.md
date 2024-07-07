@@ -1,3 +1,7 @@
+# BACKEND
+
+## API DESCRIPTION
+
 ## **GET**
 
 http://127.0.0.1:3000
@@ -8,7 +12,7 @@ http://127.0.0.1:3000/tasks
 
 Returns all tasks in JSON format, e.g.
 
-```
+```javascript
 // Action
 fetch("http://localhost:3000/tasks")
     .then((res) => res.json())
@@ -35,7 +39,7 @@ http://127.0.0.1:3000/tasks
 
 Adds the whole task. Returns the added task in JSON format. Requires sending the appropriate headers and body with data, e.g.
 
-```
+```javascript
 // Action
 fetch("http://localhost:3000/tasks", {
     method: "POST",
@@ -63,7 +67,7 @@ http://127.0.0.1:3000/tasks/**ID**
 
 Updates the task field by given id. Returns the updated task in JSON format. Requires sending **ID** parameter in address URL, the appropriate headers and body with data, e.g.
 
-```
+```javascript
 // ACTION
 fetch("http://localhost:3000/tasks/ID", {
     method: "PATCH",
@@ -91,7 +95,7 @@ fetch("http://localhost:3000/tasks/ID", {
 
 Updates the isDone field to value true by given id. Returns the updated task in JSON format. Requires sending **ID** parameter in address URL, e.g.
 
-```
+```javascript
 // ACTION
 fetch("http://localhost:3000/tasks/ID/isDone", {
     method: "PATCH",
@@ -113,7 +117,7 @@ http://127.0.0.1:3000/tasks/**ID**
 
 Deletes the whole task by given id. Returns id of the deleted task in JSON format. Requires sending **ID** parameter in address URL, e.g.
 
-```
+```javascript
 // ACTION
 fetch("http://localhost:3000/task/ID", {
     method: "DELETE",
@@ -124,3 +128,7 @@ fetch("http://localhost:3000/task/ID", {
 // RETURN
 {“id”:  “udSF-34uyv-u3rvu-vu4“}
 ```
+
+******************************************************************************
+
+# FRONTEND

@@ -1,5 +1,7 @@
 const express = require("express");
 const { log } = require("winston");
+const { TaskRepository } = require("../services/repositories/task.repository");
+const { TaskRecord } = require("../services/records/task.record");
 
 const tasksRouter = express.Router();
 
@@ -27,24 +29,25 @@ const data = [
 ];
 
 tasksRouter
-  .get("/", (req, res) => {
-    res.json(data);
+  .get("/", async (req, res) => {
+    const allTasks = await TaskRepository.getAll();
+    res.json(allTasks);
   })
-  .post("/", (req, res) => {
+  .post("/", async (req, res) => {
     const tasksList = req.body;
     res.status(201).json(tasksList);
   })
-  .patch("/:id/isDone", (req, res) => {
+  .patch("/:id/isDone", async (req, res) => {
     const { id } = req.params;
     const {} = req.body;
     res.json({ sample: `work on ${req.method} ${req.baseUrl}`, id: `${id}` });
   })
-  .patch("/:id", (req, res) => {
+  .patch("/:id", async (req, res) => {
     const { id } = req.params;
     const { task } = req.body;
     res.json(task);
   })
-  .delete("/:id", (req, res) => {
+  .delete("/:id", async (req, res) => {
     const { id } = req.params;
     res.json({ sample: `work on ${req.method} ${req.baseUrl}`, id: `${id}` });
   });
