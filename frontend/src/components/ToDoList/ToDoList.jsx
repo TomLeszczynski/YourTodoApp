@@ -7,15 +7,15 @@ export const ToDoList = () => {
   const [taskList, setTaskList] = useState([]);
 
   useEffect(() => {
-    try {
-      (async function getTasksList() {
+    (async function getTasksList() {
+      try {
         const res = await fetch("http://127.0.0.1:3000");
         const data = await res.json();
         setTaskList(data);
-      })();
-    } catch (error) {
-      throw new Error("Data fetch eild");
-    }
+      } catch (error) {
+        throw new Error("Data fetch has failed");
+      }
+    })();
   }, []);
 
   let numberOfTasks = taskList.length;

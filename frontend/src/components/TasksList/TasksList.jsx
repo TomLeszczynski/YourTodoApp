@@ -17,22 +17,43 @@ export const TasksList = ({ taskList, setTaskList }) => {
   }, [editingTaskId]);
 
   const handleDeleteClickButton = (id) => {
-    const filteredList = taskList.filter((task) => task.id !== id);
+    (async function deleteTask() {
+      try {
+        await fetch(`http://127.0.0.1:3000/tasks/${id}`, {
+          method: "DELETE",
+        });
 
-    setTaskList(() => {
-      return [...filteredList];
-    });
+        const filteredList = taskList.filter((task) => task.id !== id);
+
+        setTaskList(() => {
+          return [...filteredList];
+        });
+      } catch {
+        throw new Error("Delete action has failed");
+      }
+    })();
   };
 
   const handleDoneClickButton = (id) => {
-    setTaskList(
-      taskList.map((task) => {
-        if (task.id === id) {
-          return { ...task, isDone: true };
-        }
-        return task;
-      })
-    );
+    (async function changeStatusOfTask() {
+      try {
+        const result = await fetch(`http://127.0.0.1:3000/tasks/${id}/isDone`, {
+          method: "PATCH",
+        });
+        const data = await result.json();
+
+        setTaskList(
+          taskList.map((task) => {
+            if (task.id === id) {
+              return data;
+            }
+            return task;
+          })
+        );
+      } catch {
+        throw new Error("Patch action to change status has failed");
+      }
+    })();
   };
 
   const handleEditClickButton = (id, currentTask) => {
@@ -45,16 +66,34 @@ export const TasksList = ({ taskList, setTaskList }) => {
   };
 
   const handleSaveBlur = (id) => {
-    setTaskList(
-      taskList.map((taskItem) => {
-        if (taskItem.id === id) {
-          return { ...taskItem, task: currentInput };
-        }
-        return { ...taskItem };
-      })
-    );
+    (async function updateTask() {
+      try {
+        const result = await fetch(`http://localhost:3000/tasks/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: currentInput,
+          }),
+        });
+        const data = await result.json();
 
-    setEditingTaskId(null);
+        setTaskList(
+          taskList.map((task) => {
+            if (task.id === id) {
+              return data;
+            }
+            return task;
+          })
+        );
+
+        setEditingTaskId(null);
+      } catch {
+        setEditingTaskId(null);
+        throw new Error("Patch action has failed");
+      }
+    })();
   };
 
   return (
