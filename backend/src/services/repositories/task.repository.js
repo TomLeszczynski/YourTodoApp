@@ -1,6 +1,6 @@
 const { v4: uuid } = require("uuid");
-const { pool } = require("../config/dbConfig");
-const { TaskRecord } = require("./records/task.record");
+const { pool } = require("../../config/dbConfig.js");
+const { TaskRecord } = require("../records/task.record.js");
 
 class TaskRepository {
   constructor() {}
@@ -12,7 +12,9 @@ class TaskRepository {
   }
 
   static async getAll() {
-    const [results] = await pool.execute("SELECT * FROM `tasks`;");
+    const [results] = await pool.execute(
+      "SELECT * FROM `tasks` ORDER BY `created_at` ASC;"
+    );
     return results.map((element) => new TaskRecord(element));
   }
 
@@ -42,7 +44,7 @@ class TaskRepository {
     return await this.getOne(id);
   }
 
-  static async changeStatus(record) {
+  static async changeStatusToDone(record) {
     this._checkRecord(record);
 
     if (!record.id) {
@@ -86,7 +88,7 @@ class TaskRepository {
       id: record.id,
     });
 
-    return record.id;
+    return { id: record.id };
   }
 }
 

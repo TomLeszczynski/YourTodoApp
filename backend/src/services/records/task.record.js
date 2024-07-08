@@ -12,12 +12,16 @@ class TaskRecord {
       throw new Error("Task must not contain more than 255 characters.");
     }
 
-    if (this.task.length) {
+    if (!this.task.length) {
       throw new Error("Task must contain at least 1 character.");
     }
 
-    if (this.id.trim().length === 36) {
+    if (this.id.trim().length !== 36) {
       throw new Error("Id of task must have 36 characters.");
+    }
+
+    if (typeof this.isDone !== "boolean") {
+      throw new Error("isDone must be a boolean value");
     }
   }
 }

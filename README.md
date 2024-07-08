@@ -63,7 +63,7 @@ fetch("http://localhost:3000/tasks", {
 
 ## **PATCH**
 
-http://127.0.0.1:3000/tasks/**ID**
+http://127.0.0.1:3000/tasks/ID
 
 Updates the task field by given id. Returns the updated task in JSON format. Requires sending **ID** parameter in address URL, the appropriate headers and body with data, e.g.
 
@@ -91,7 +91,7 @@ fetch("http://localhost:3000/tasks/ID", {
 
 ## **PATCH**
 
-[http://127.0.0.1:3000/tasks/](http://127.0.0.1:3000/tasks/)**ID**/isDone
+http://127.0.0.1:3000/tasks/ID/isDone
 
 Updates the isDone field to value true by given id. Returns the updated task in JSON format. Requires sending **ID** parameter in address URL, e.g.
 
@@ -113,7 +113,7 @@ fetch("http://localhost:3000/tasks/ID/isDone", {
 
 ## **DELETE**
 
-http://127.0.0.1:3000/tasks/**ID**
+http://127.0.0.1:3000/tasks/ID
 
 Deletes the whole task by given id. Returns id of the deleted task in JSON format. Requires sending **ID** parameter in address URL, e.g.
 
