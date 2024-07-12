@@ -7,15 +7,27 @@ export const ToDoList = () => {
   const [taskList, setTaskList] = useState([]);
 
   useEffect(() => {
-    (async function getTasksList() {
-      try {
-        const res = await fetch("http://127.0.0.1:3000");
-        const data = await res.json();
-        setTaskList(data);
-      } catch (error) {
-        throw new Error("Data fetch has failed");
-      }
-    })();
+
+    fetch("http://127.0.0.1:3000/tasks")
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.message);
+          });
+        }
+        return response.json();
+      })
+      .then((data) => setTaskList(data))
+      .catch((error) => {
+        if (error.name === "TypeError") {
+          return alert(
+            "Sorry, Server not responding right now. Please try again later."
+          );
+        } else {
+          return alert(error.message);
+        }
+      });
+      
   }, []);
 
   let numberOfTasks = taskList.length;

@@ -1,10 +1,9 @@
 const express = require("express");
+const { homeController } = require("../../controllers/home.js");
 
 const homeRouter = express.Router();
 
-homeRouter.get("/", (req, res) => {
-  res.redirect(303, "/tasks");
-});
+homeRouter.get("/", homeController);
 
 module.exports = {
   homeRouter,

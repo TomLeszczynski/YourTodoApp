@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { displayErrorMessage } from "../../../utils/error.js";
 import { StyledLi } from "../styles/StyledLi.jsx";
 import { StyledListButton } from "../styles/StyledListButton.jsx";
 import { StyledUl } from "../styles/StyledUl.jsx";
@@ -16,31 +17,20 @@ export const TasksList = ({ taskList, setTaskList }) => {
     }
   }, [editingTaskId]);
 
-  const handleDeleteClickButton = (id) => {
-    (async function deleteTask() {
-      try {
-        await fetch(`http://127.0.0.1:3000/tasks/${id}`, {
-          method: "DELETE",
-        });
-
-        const filteredList = taskList.filter((task) => task.id !== id);
-
-        setTaskList(() => {
-          return [...filteredList];
-        });
-      } catch {
-        throw new Error("Delete action has failed");
-      }
-    })();
-  };
-
   const handleDoneClickButton = (id) => {
     (async function changeStatusOfTask() {
       try {
-        const result = await fetch(`http://127.0.0.1:3000/tasks/${id}/isDone`, {
-          method: "PATCH",
-        });
-        const data = await result.json();
+        const response = await fetch(
+          `http://127.0.0.1:3000/tasks/${id}/isDone`,
+          {
+            method: "PATCH",
+          }
+        );
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Failed to change task status");
+        }
+        const data = await response.json();
 
         setTaskList(
           taskList.map((task) => {
@@ -50,8 +40,66 @@ export const TasksList = ({ taskList, setTaskList }) => {
             return task;
           })
         );
-      } catch {
-        throw new Error("Patch action to change status has failed");
+      } catch (error) {
+        displayErrorMessage(error);
+      }
+    })();
+  };
+
+  const handleSaveBlur = (id) => {
+    (async function updateTask() {
+      try {
+        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: currentInput,
+          }),
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Failed to change task content");
+        }
+        const data = await response.json();
+
+        setTaskList(
+          taskList.map((task) => {
+            if (task.id === id) {
+              return data;
+            }
+            return task;
+          })
+        );
+
+        setEditingTaskId(null);
+      } catch (error) {
+        setEditingTaskId(null);
+        displayErrorMessage(error);
+      }
+    })();
+  };
+
+  const handleDeleteClickButton = (id) => {
+    (async function deleteTask() {
+      try {
+        const response = await fetch(`http://127.0.0.1:3000/tasks/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Failed to remove task");
+        }
+
+        const filteredList = taskList.filter((task) => task.id !== id);
+
+        setTaskList(() => {
+          return [...filteredList];
+        });
+      } catch (error) {
+        displayErrorMessage(error);
       }
     })();
   };
@@ -63,37 +111,6 @@ export const TasksList = ({ taskList, setTaskList }) => {
 
   const handleInputChange = (event) => {
     setCurrentInput(event.target.value);
-  };
-
-  const handleSaveBlur = (id) => {
-    (async function updateTask() {
-      try {
-        const result = await fetch(`http://localhost:3000/tasks/${id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            task: currentInput,
-          }),
-        });
-        const data = await result.json();
-
-        setTaskList(
-          taskList.map((task) => {
-            if (task.id === id) {
-              return data;
-            }
-            return task;
-          })
-        );
-
-        setEditingTaskId(null);
-      } catch {
-        setEditingTaskId(null);
-        throw new Error("Patch action has failed");
-      }
-    })();
   };
 
   return (

@@ -16,7 +16,7 @@ Returns all tasks in JSON format, e.g.
 // Action
 fetch("http://localhost:3000/tasks")
     .then((res) => res.json())
-    .((data) => data);
+    .then((data) => data);
     
 // Return
 [
@@ -51,7 +51,7 @@ fetch("http://localhost:3000/tasks", {
     }),
 })
     .then((res) => res.json())
-    .((data) => data);
+    .then((data) => data);
     
 // Return    
 {
@@ -79,7 +79,7 @@ fetch("http://localhost:3000/tasks/ID", {
     }),
 })
     .then((res) => res.json())
-    .((data) => data);
+    .then((data) => data);
     
 // RETURN
 {
@@ -101,7 +101,7 @@ fetch("http://localhost:3000/tasks/ID/isDone", {
     method: "PATCH",
 })
     .then((res) => res.json())
-    .((data) => data);
+    .then((data) => data);
     
 // RETURN
 {
@@ -123,7 +123,7 @@ fetch("http://localhost:3000/task/ID", {
     method: "DELETE",
     })
     .then((res) => res.json())
-    .((data) => data);
+    .then((data) => data);
 
 // RETURN
 {“id”:  “udSF-34uyv-u3rvu-vu4“}

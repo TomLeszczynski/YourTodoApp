@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { displayErrorMessage } from "../../../utils/error.js";
 import { StyledHeadDiv } from "../styles/StyledHeadDiv.jsx";
 import { StyledAddButton } from "../styles/StyledAddButton.jsx";
 import { StyledAddInput } from "../styles/StyledAddInput.jsx";
@@ -6,7 +7,7 @@ import iconPlus from "../../assets/icons8-plus-40.png";
 
 export const InputTask = ({ setTaskList, numberOfTasks }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [newTask, setNewTask] = useState(null);
+  const [newTask, setNewTask] = useState("");
   const [isButtonAddTaskDisabled, setIsButtonAddTaskDisabled] = useState(true);
 
   const handleOpenForm = () => {
@@ -21,12 +22,17 @@ export const InputTask = ({ setTaskList, numberOfTasks }) => {
       : setIsButtonAddTaskDisabled(true);
   };
 
-  const handleAddTaskForm = (event) => {
+  const handleSubmitTaskForm = (event) => {
     event.preventDefault();
 
     (async function addNewTask() {
       try {
-        const result = await fetch("http://127.0.0.1:3000/tasks", {
+        if (!newTask.length || newTask.length > 255) {
+          throw new Error(
+            "A task must contain at least 1 word and must not exceed 255 characters."
+          );
+        }
+        const response = await fetch("http://127.0.0.1:3000/tasks", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -35,7 +41,12 @@ export const InputTask = ({ setTaskList, numberOfTasks }) => {
             task: newTask,
           }),
         });
-        const data = await result.json();
+        if (!response.ok) {
+          throw new Error(
+            `Failed to add task "${newTask}". Please try again later.`
+          );
+        }
+        const data = await response.json();
 
         setTaskList((prevState) => {
           return [
@@ -52,7 +63,7 @@ export const InputTask = ({ setTaskList, numberOfTasks }) => {
         setIsButtonAddTaskDisabled(true);
         setIsFormOpen((prevState) => !prevState);
       } catch (error) {
-        throw new Error("Post action has failed");
+        displayErrorMessage(error);
       }
     })();
   };
@@ -71,12 +82,9 @@ export const InputTask = ({ setTaskList, numberOfTasks }) => {
         )}
       </StyledHeadDiv>
       {isFormOpen && (
-        <form>
+        <form onSubmit={handleSubmitTaskForm}>
           <StyledAddInput onChange={handleChange} type="text" />
-          <StyledAddButton
-            onClick={handleAddTaskForm}
-            disabled={isButtonAddTaskDisabled}
-          >
+          <StyledAddButton type={"submit"} disabled={isButtonAddTaskDisabled}>
             Add task
           </StyledAddButton>
         </form>

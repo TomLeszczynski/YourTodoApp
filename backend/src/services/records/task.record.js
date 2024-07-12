@@ -1,3 +1,5 @@
+const { ValidationError } = require("../../utils/handleError");
+
 class TaskRecord {
   constructor({ id, task, isDone }) {
     this.id = id;
@@ -9,19 +11,21 @@ class TaskRecord {
 
   _validate() {
     if (this.task.trim().length > 255) {
-      throw new Error("Task must not contain more than 255 characters.");
+      throw new ValidationError(
+        "Task must not contain more than 255 characters."
+      );
     }
 
     if (!this.task.length) {
-      throw new Error("Task must contain at least 1 character.");
+      throw new ValidationError("Task must contain at least 1 character.");
     }
 
     if (this.id.trim().length !== 36) {
-      throw new Error("Id of task must have 36 characters.");
+      throw new ValidationError("Id of task must have 36 characters.");
     }
 
     if (typeof this.isDone !== "boolean") {
-      throw new Error("isDone must be a boolean value");
+      throw new ValidationError("isDone must be a boolean value");
     }
   }
 }

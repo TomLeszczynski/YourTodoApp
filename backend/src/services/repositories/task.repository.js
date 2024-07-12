@@ -13,14 +13,14 @@ class TaskRepository {
 
   static async getAll() {
     const [results] = await pool.execute(
-      "SELECT * FROM `tasks` ORDER BY `created_at` ASC;"
+      "SELECT `id`, `task`, `isDone` FROM `tasks` ORDER BY `created_at` ASC;"
     );
     return results.map((element) => new TaskRecord(element));
   }
 
   static async getOne(id) {
     const [results] = await pool.execute(
-      "SELECT * FROM `tasks` WHERE `id` = :id;",
+      "SELECT `id`, `task`, `isDone` FROM `tasks` WHERE `id` = :id;",
       {
         id,
       }

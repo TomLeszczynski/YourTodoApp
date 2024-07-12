@@ -9,6 +9,9 @@
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "keywords": [],
   "author": "Tomasz Leszczyński",
   "license": "ISC",
@@ -22,6 +25,7 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
