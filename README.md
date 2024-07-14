@@ -1,134 +1,105 @@
-# BACKEND
+# Your Todo App
 
-## API DESCRIPTION
+This is Full stack Todo list application built with React, JavaScript, Node, Express, MariaDB, and SQL.
 
-## **GET**
+  
 
-http://127.0.0.1:3000
+# Usage
 
-OR
+1. User opens this app and inputs the tasks one by one.
 
-http://127.0.0.1:3000/tasks
+2. Database stores the tasks so that the user can close out of the app but still access the same tasks on reload.
 
-Returns all tasks in JSON format, e.g.
+3. As user completes a task, they can click the Done button to mark them as complete for organization.
 
-```javascript
-// Action
-fetch("http://localhost:3000/tasks")
-    .then((res) => res.json())
-    .then((data) => data);
-    
-// Return
-[
-  {
-    "id": "nsdo-dhhsd-8hs-dfg-7G",
-    "task": "Pay taxes",
-    "isDone": false
-  },
-  {
-    "id": "hs-qh38g-74gh-4-h5g",
-    "task": "Feed the cat",
-    "isDone": true
-  }
-]
+4. If a user wishes to edit a task, they can press the Edit button to start editing.
+
+5. If a user wishes to delete a task, they can press the delete button.
+
+  
+
+# Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/)
+
+- [MariaDB](https://mariadb.org/download/)
+
+  
+
+# Create a database
+
+Create a database named `your_todo_app`.
+
+You can use the sql to execute:
+
+```sql
+CREATE  DATABASE `your_todo_app`;
 ```
 
-## **POST**
+or do it manually by a database client like [phpMyAdmin](https://www.phpmyadmin.net/downloads/)
 
-http://127.0.0.1:3000/tasks
+  
 
-Adds the whole task. Returns the added task in JSON format. Requires sending the appropriate headers and body with data, e.g.
+# Installation
 
-```javascript
-// Action
-fetch("http://localhost:3000/tasks", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-        task: "Pay taxes",
-    }),
-})
-    .then((res) => res.json())
-    .then((data) => data);
-    
-// Return    
-{
-    "id": "sf48-8sr-ie7-fb3",
-    "task": "Make a white tea",
-    "isDone": false
-},
+  
+
+1. Ensure your `MariaDB` server is running.
+
+2. The query in the `create_tasks_table.js` file is set up to create all the necessary tables and populate the needed data to allow the application to run correctly. This will be done automatically when starting the server.
+
+3. Open the project in your editor of choice.
+
+4. Project Setup:
+
+- Install backend dependencies:
+
+```bash
+cd backend
+npm install
 ```
 
-## **PATCH**
+- Install frontend dependencies:
 
-http://127.0.0.1:3000/tasks/ID
+```bash
+cd frontend
+npm install
+```
+5. Running the Application:
 
-Updates the task field by given id. Returns the updated task in JSON format. Requires sending **ID** parameter in address URL, the appropriate headers and body with data, e.g.
+- Start the backend server:
 
-```javascript
-// ACTION
-fetch("http://localhost:3000/tasks/ID", {
-    method: "PATCH",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-        task: "Buy a good Gin",
-    }),
-})
-    .then((res) => res.json())
-    .then((data) => data);
-    
-// RETURN
-{
-    "id": "dfgb-fgh-34g-ubo3-4g",
-    "task": "Buy a good Gin",
-    "isDone": false
-},    
+```bash
+cd backend
+npm run dev
 ```
 
-## **PATCH**
+- In a separate terminal, start the frontend application:
 
-http://127.0.0.1:3000/tasks/ID/isDone
-
-Updates the isDone field to value true by given id. Returns the updated task in JSON format. Requires sending **ID** parameter in address URL, e.g.
-
-```javascript
-// ACTION
-fetch("http://localhost:3000/tasks/ID/isDone", {
-    method: "PATCH",
-})
-    .then((res) => res.json())
-    .then((data) => data);
-    
-// RETURN
-{
-    "id": "ebfr-b3-b43-u4f-buh",
-    "task": "Fix the car",
-    "isDone": true
-},
+```bash
+cd frontend
+npm run dev
 ```
+6. Open your browser and go to `http://localhost:5173`,
 
-## **DELETE**
+  
 
-http://127.0.0.1:3000/tasks/ID
+## Built With
 
-Deletes the whole task by given id. Returns id of the deleted task in JSON format. Requires sending **ID** parameter in address URL, e.g.
+  
 
-```javascript
-// ACTION
-fetch("http://localhost:3000/task/ID", {
-    method: "DELETE",
-    })
-    .then((res) => res.json())
-    .then((data) => data);
+This app is built with:
 
-// RETURN
-{“id”:  “udSF-34uyv-u3rvu-vu4“}
-```
+- [React](https://reactjs.org/)
 
-******************************************************************************
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-# FRONTEND
+- [Node.js](https://nodejs.org/)
+
+- [Express](https://expressjs.com/)
+
+- [MariaDB](https://mariadb.org/)
+
+- [SQL](https://www.sql.org/)
